@@ -1,0 +1,108 @@
+drop database if exists teacher;
+create database teacher;
+use teacher;
+
+Create table teacher(
+teacherid int (4),
+f_name varchar(20)not null,
+l_name varchar(20)not null,
+primary key (teacherid)
+);
+insert into Teacher values (2001,'john','doe');
+insert into Teacher values (2002,'jane','Dane');
+insert into Teacher values (2003,'Shivi','Prabhakar');
+insert into Teacher values (2004,'Rony','Rincon');
+insert into Teacher values (2005,'Anthony','Pryor');
+insert into Teacher values (2006,'Elywood','Lyken ');
+insert into Teacher values (2007,'Dexter','Dexter');
+insert into Teacher values (2008,'Mad ','Dexter');
+ select* from teacher;
+ desc teacher;
+ select max (teacherid)from teacher;
+ select min (teacherid) from teacher;
+Create table Subjects(
+subject_id int,
+subject_title varchar(30) not null,
+primary key (subject_id)
+);
+
+insert into Subjects values (1001,'Mathematics');
+insert into Subjects values (1002,'English');
+insert into Subjects values (1003,'SQL');
+insert into Subjects values (1004,'JAVA Programming');
+insert into Subjects values (1005,'Automation testing');
+ select* from subjects;
+desc subjects;
+select subject_id as id, subject_title as title from subjects;
+Create table group1(
+group_id int,
+group_name varchar(30) not null,
+primary key (group_id)
+);
+
+insert into Group1 values ('3001','Coders');
+insert into Group1 values ('3002','Literature');
+insert into Group1 values ('3003','Physical sciences');
+desc group1 ;
+Create table Subject_Teacher(
+subject_id int,                               
+teacher_id int,
+group_id int,
+foreign key (teacher_id) references Teacher(teacherid),
+foreign key (subject_id) references subjects (subject_id)
+);
+
+insert into Subject_Teacher values (1001,2001,3003);
+insert into Subject_Teacher values (1001,2002,3002);
+insert into Subject_Teacher values (1003,2003,3001);
+insert into Subject_Teacher values (1004,2003,3001);
+insert into Subject_Teacher values (1005,2003,3001);
+insert into Subject_Teacher values (1004,2004,3001);
+insert into Subject_Teacher values (1005,2004,3001);
+insert into Subject_Teacher values (1002,2005,3002);
+insert into Subject_Teacher values (1002,2002,3002);
+insert into Subject_Teacher values (1001,2008,3002);
+
+ select* from subject_teacher;
+desc subject_teacher;
+select teacher_id, subject_id from subject_teacher where group_id=3001 and teacher_id=1001;
+Create table Students(
+student_id int,
+f_name varchar(30),
+l_name varchar(30),
+group_id int,
+foreign key (group_id) references Group1(group_id)
+);
+
+insert into Students values (4001,'Damien','dex',3001);
+insert into Students values (4002,'Samantha','Stuart',3001);
+insert into Students values (4002,'Samantha','Stuart',3002);
+insert into Students values (4002,'Samantha','Stuart',3002);
+insert into Students values (4003,'Jamaal','Ahmed',3003);
+ select* from students;
+desc students;
+select distinct f_name as first_name from students order by (f_name) desc;
+select f_name,l_name from students where group_id=3001 and 3003;
+select student_id from students where f_name ='%s' and l_name='a%';
+
+Create table Marks(
+mark_id int,
+student_id int,
+subject_id int,
+date date,
+marks int not null,
+primary key (mark_id),
+foreign key (subject_id) references Subjects(subject_id)
+);
+
+
+insert into Marks values (5001,4002,1002,'2019-11-11',80);
+insert into Marks values (5002,4003,1004,'2000-01-21',65);
+insert into Marks values (5003,4001,1005,'2018-05-12',40);
+ select* from marks;
+desc marks;
+
+select count(student_id) from marks;
+select avg(student_id) from marks;
+select sum(student_id) from marks;
+
